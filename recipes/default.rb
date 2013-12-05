@@ -54,7 +54,7 @@ if conf['enable_default_http']
   member_port = conf['member_port']
   pool = []
   pool << "option httpchk #{conf['httpchk']}" if conf['httpchk']
-  servers = node['haproxy']['members'].each do |member|
+  servers = node['haproxy']['members'].map do |member|
     "#{member['hostname']} #{member['ipaddress']}:#{member['port'] || member_port} weight #{member['weight'] || member_weight} maxconn #{member['max_connections'] || member_max_conn} check"
   end
   haproxy_lb 'servers-http' do
